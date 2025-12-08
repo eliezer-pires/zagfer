@@ -1,0 +1,48 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model Tool {
+  id       String @id
+  name     String
+  category String
+  size     String?
+  bmp      String?
+  sector   String
+  status   String
+}
+
+model User {
+  id        String @id
+  name      String
+  matricula String @unique
+  active    Boolean
+  role      String
+}
+
+model HistoryRecord {
+  id                   String @id
+  timestamp            Float
+  actionType           String
+  dispatcherId         String
+  dispatcherName       String
+  dispatcherMatricula  String
+  responsibleName      String
+  responsibleMatricula String
+  toolIds              String 
+  toolsSummary         String
+  expectedReturnDate   Float?
+  
+  @@map("history")
+}
+
+// Maps to match existing table names if needed, though 'Tool' -> 'Tool' in Prisma usually. 
+// Supabase likely had 'tools', 'users'.
+// Let's explicitly map them to be safe if we were migrating data, but for new local DB it doesn't matter much.
+// But to match the frontend likely expecting 'tools' in JSON, mapped table names don't affect JSON output unless we write raw queries.
+// However, I will keep standard naming.
