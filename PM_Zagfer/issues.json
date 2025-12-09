@@ -1,0 +1,237 @@
+[
+  {
+    "title": "Criar Project Board (Kanban) no GitHub",
+    "body": "Configurar um board kanban para organizar o fluxo do projeto.",
+    "assignees": ["eliezer-pires"],
+    "milestone": 1,
+    "labels": ["Project Manager"]
+  },
+  {
+    "title": "Criar milestones semanais correspondentes às sprints",
+    "body": "Adicionar milestones Sprint 1 a Sprint 6.",
+    "assignees": ["eliezer-pires"],
+    "milestone": 1,
+    "labels": ["Project Manager"]
+  },
+  {
+    "title": "Adicionar documentação inicial",
+    "body": "Criar README.md e CONTRIBUTING.md.",
+    "assignees": ["eliezer-pires"],
+    "milestone": 1,
+    "labels": ["Project Manager"]
+  },
+  {
+    "title": "Configurar Dockerfile para frontend e backend",
+    "body": "Criar os Dockerfiles para que o stack rode em containers.",
+    "assignees": ["eliezer-pires"],
+    "milestone": 1,
+    "labels": ["DevOps"]
+  },
+  {
+    "title": "Criar docker-compose.yml",
+    "body": "Orquestrar frontend, backend e banco de dados localmente.",
+    "assignees": ["eliezer-pires"],
+    "milestone": 1,
+    "labels": ["DevOps"]
+  },
+  {
+    "title": "Configurar GitHub Actions CI inicial",
+    "body": "Pipeline com build e lint do frontend/backend.",
+    "assignees": ["eliezer-pires"],
+    "milestone": 1,
+    "labels": ["DevOps"]
+  },
+  {
+    "title": "Criar esqueleto do projeto em FastAPI",
+    "body": "Iniciar backend em Python com FastAPI e configurar rota /health.",
+    "assignees": ["KeltonMarques", "eliezer-pires"],
+    "milestone": 1,
+    "labels": ["Backend"]
+  },
+  {
+    "title": "Configurar banco de dados no container",
+    "body": "Adicionar PostgreSQL/MySQL no docker-compose.",
+    "assignees": ["KeltonMarques", "eliezer-pires"],
+    "milestone": 1,
+    "labels": ["Backend"]
+  },
+  {
+    "title": "Criar endpoint /health",
+    "body": "Endpoint simples para verificação de status.",
+    "assignees": ["KeltonMarques", "eliezer-pires"],
+    "milestone": 1,
+    "labels": ["Backend"]
+  },
+  {
+    "title": "Criar estrutura inicial React + Vite + Tailwind",
+    "body": "Configurar frontend com React, Vite e Tailwind + Hello App.",
+    "assignees": ["ramosrms245"],
+    "milestone": 1,
+    "labels": ["Frontend"]
+  },
+  {
+    "title": "Definir modelos e ORM",
+    "body": "Configurar SQLAlchemy com modelos iniciais.",
+    "assignees": ["KeltonMarques", "eliezer-pires"],
+    "milestone": 2,
+    "labels": ["Backend"]
+  },
+  {
+    "title": "Implementar CRUD de usuário",
+    "body": "Criar endpoints de criação, leitura, atualização e remoção.",
+    "assignees": ["KeltonMarques", "eliezer-pires"],
+    "milestone": 2,
+    "labels": ["Backend"]
+  },
+  {
+    "title": "Implementar autenticação JWT",
+    "body": "Login e registro de usuários com tokens JWT.",
+    "assignees": ["KeltonMarques", "eliezer-pires"],
+    "milestone": 2,
+    "labels": ["Backend"]
+  },
+  {
+    "title": "Criar documentação Swagger",
+    "body": "Documentar endpoints automaticamente via FastAPI.",
+    "assignees": ["KeltonMarques", "eliezer-pires"],
+    "milestone": 2,
+    "labels": ["Backend"]
+  },
+  {
+    "title": "Configurar rotas no frontend",
+    "body": "Usar React Router para navegação entre páginas.",
+    "assignees": ["ramosrms245"],
+    "milestone": 2,
+    "labels": ["Frontend"]
+  },
+
+  {
+    "title": "Criar endpoints de materiais (CRUD)",
+    "body": "API para gerenciar materiais.",
+    "assignees": ["KeltonMarques", "eliezer-pires"],
+    "milestone": 3,
+    "labels": ["Backend"]
+  },
+  {
+    "title": "Adicionar seeds no banco",
+    "body": "Popular banco com dados fake para testes.",
+    "assignees": ["KeltonMarques"],
+    "milestone": 3,
+    "labels": ["Backend"]
+  },
+  {
+    "title": "Criar layout principal",
+    "body": "Header, Sidebar e Dashboard do frontend.",
+    "assignees": ["ramosrms245"],
+    "milestone": 3,
+    "labels": ["Frontend"]
+  },
+  {
+    "title": "Conectar tela de login ao backend mockado",
+    "body": "Integrar frontend ao backend fake.",
+    "assignees": ["ramosrms245"],
+    "milestone": 3,
+    "labels": ["Frontend"]
+  },
+  {
+    "title": "Criar listagem de materiais com dados fake",
+    "body": "Mostrar dados simulados na UI.",
+    "assignees": ["ramosrms245"],
+    "milestone": 3,
+    "labels": ["Frontend"]
+  },
+
+  {
+    "title": "Implementar endpoints avançados",
+    "body": "Busca de materiais, filtros e paginação.",
+    "assignees": ["KeltonMarques"],
+    "milestone": 4,
+    "labels": ["Backend"]
+  },
+  {
+    "title": "Adicionar testes unitários no backend",
+    "body": "Testar endpoints com Pytest.",
+    "assignees": ["KeltonMarques", "eliezer-pires"],
+    "milestone": 4,
+    "labels": ["Backend"]
+  },
+  {
+    "title": "Conectar frontend ao backend real",
+    "body": "Login e CRUD de materiais via API real.",
+    "assignees": ["ramosrms245", "eliezer-pires"],
+    "milestone": 4,
+    "labels": ["Frontend"]
+  },
+  {
+    "title": "Implementar formulários de materiais",
+    "body": "Criar/editar materiais pelo frontend.",
+    "assignees": ["ramosrms245"],
+    "milestone": 4,
+    "labels": ["Frontend"]
+  },
+  {
+    "title": "Adicionar feedback visual",
+    "body": "Loading spinners, mensagens de erro e sucesso.",
+    "assignees": ["ramosrms245"],
+    "milestone": 4,
+    "labels": ["Frontend"]
+  },
+
+  {
+    "title": "Otimizar queries do banco",
+    "body": "Adicionar índices e melhorar performance.",
+    "assignees": ["KeltonMarques"],
+    "milestone": 5,
+    "labels": ["Backend"]
+  },
+  {
+    "title": "Criar testes de carga",
+    "body": "Usar locust ou k6 para validar escalabilidade.",
+    "assignees": ["KeltonMarques"],
+    "milestone": 5,
+    "labels": ["Backend"]
+  },
+  {
+    "title": "Implementar testes E2E no frontend",
+    "body": "Testes com Cypress para fluxos principais.",
+    "assignees": ["ramosrms245"],
+    "milestone": 5,
+    "labels": ["Frontend"]
+  },
+  {
+    "title": "Melhorar responsividade e UX",
+    "body": "Ajustar frontend para mobile e refinar UI.",
+    "assignees": ["ramosrms245"],
+    "milestone": 5,
+    "labels": ["Frontend"]
+  },
+
+  {
+    "title": "Documentar API no README e Swagger",
+    "body": "Explicar endpoints e como consumir a API.",
+    "assignees": ["KeltonMarques", "eliezer-pires"],
+    "milestone": 6,
+    "labels": ["Backend"]
+  },
+  {
+    "title": "Revisar cobertura de testes backend",
+    "body": "Cobertura > 80% nos testes automatizados.",
+    "assignees": ["KeltonMarques", "eliezer-pires"],
+    "milestone": 6,
+    "labels": ["Backend"]
+  },
+  {
+    "title": "Documentar instruções de uso do frontend",
+    "body": "README com passos para rodar o frontend.",
+    "assignees": ["ramosrms245"],
+    "milestone": 6,
+    "labels": ["Frontend"]
+  },
+  {
+    "title": "Revisar acessibilidade e usabilidade",
+    "body": "Checar padrões WCAG e UX geral.",
+    "assignees": ["ramosrms245", "eliezer-pires"],
+    "milestone": 6,
+    "labels": ["Frontend"]
+  }
+]
