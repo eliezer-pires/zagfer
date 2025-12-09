@@ -1,6 +1,8 @@
-{"id":13649862,"title":"Sprint 1 - Configuração Inicial"}
-{"id":13649860,"title":"Sprint 2 - Backend Estrutura Base"}
-{"id":13649863,"title":"Sprint 3 - Frontend Estrutura Base"}
-{"id":13649859,"title":"Sprint 4 - Integração Frontend + Backend"}
-{"id":13649858,"title":"Sprint 5 - Refino + DevOps"}
-{"id":13649861,"title":"Sprint 6 - Finalização e Documentação"}
+[
+  { "id": 13649862, "title": "Sprint 1 - Fundação do Projeto" },
+  { "id": 13649860, "title": "Sprint 2 - Observabilidade e Autenticação" },
+  { "id": 13649863, "title": "Sprint 3 - Resiliência" },
+  { "id": 13649859, "title": "Sprint 4 - CI/CD Foundations" },
+  { "id": 13649858, "title": "Sprint 5 - Monitoramento Avançado" },
+  { "id": 13649861, "title": "Sprint 6 - Polimento e Documentação" }
+]
