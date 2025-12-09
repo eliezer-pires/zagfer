@@ -1,14 +1,14 @@
 #!/bin/bash
 
-REPO="eliezer-pires/material-deram-trace"
+REPO="eliezer-pires/zagfer"
 
 declare -A milestones=(
-  ["Sprint 1 - Configuração Inicial"]="2025-09-16T23:59:59Z"
-  ["Sprint 2 - Backend Estrutura Base"]="2025-09-23T23:59:59Z"
-  ["Sprint 3 - Frontend Estrutura Base"]="2025-09-30T23:59:59Z"
-  ["Sprint 4 - Integração Frontend + Backend"]="2025-10-07T23:59:59Z"
-  ["Sprint 5 - Refino + DevOps"]="2025-10-14T23:59:59Z"
-  ["Sprint 6 - Finalização e Documentação"]="2025-10-21T23:59:59Z"
+  ["Sprint 1 - Fundação do Projeto"]="2025-12-24T23:59:59Z"
+  ["Sprint 2 - Observabilidade e Autenticação"]="2026-01-07T23:59:59Z"
+  ["Sprint 3 - Resiliência"]="2026-01-21T23:59:59Z"
+  ["Sprint 4 - CI/CD Foundations"]="2026-02-04T23:59:59Z"
+  ["Sprint 5 - Monitoramento Avançado"]="2026-02-18T23:59:59Z"
+  ["Sprint 6 - Polimento e Documentação"]="2026-03-04T23:59:59Z"
 )
 
 echo "🚀 Criando milestones no repositório $REPO ..."
