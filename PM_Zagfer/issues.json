@@ -1,10 +1,10 @@
 [
   {
-    "title": "Criar Project Board (Kanban) no GitHub",
-    "body": "Configurar um board kanban para organizar o fluxo do projeto.",
+    "title": "Setup do Ambiente de Desenvolvimento Local.",
+    "body": "Configurar ambiente de desenvolvimento local com Docker para todos os desenvolvedores.\n\nTasks:\n\n- [ ]  Criar `.dockerignore` com arquivos a ignorar.\n- [ ]  Criar `docker-compose.yml` base.\n- [ ]  Criar `docker-compose.dev.yml` com hot-reload.\n- [ ]  Criar `docker-compose.test.yml` para testes.\n- [ ]  Documentar no README.md como rodar localmente.\n- [ ]  Criar script `scripts/setup-dev.sh` para first-time setup.\n- [ ]  Testar em máquinas Windows, Mac e Linux.\n\nCritérios de Aceitação:\n\n- [ ]  `docker-compose up` sobe a aplicação completa.\n- [ ]  Hot reload funciona (mudanças no código refletem sem rebuild)\n- [ ]  Banco de dados persiste entre restarts.\n- [ ]  Logs aparecem no terminal de forma legível.\n- [ ]  Documentação permite que novo dev configure em < 15 minutos.\n\nDependências: Nenhuma",
+    "labels": ["DevOps"],
     "assignees": ["eliezer-pires"],
-    "milestone": 1,
-    "labels": ["Project Manager"]
+    "milestone": "Sprint 1 - Fundação do Projeto"
   },
   {
     "title": "Criar milestones semanais correspondentes às sprints",
