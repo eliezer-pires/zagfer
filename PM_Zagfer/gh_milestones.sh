@@ -65,7 +65,7 @@ for t in "${!MILESTONE_MAP[@]}"; do
 done
 echo "✅ Mapeamento concluído!"
 
-# Importando as Issues - USANDO PROCESS SUBSTITUTION
+# Importando as Issues
 echo "🚀 Importando issues do arquivo issues.json ..."
 while IFS= read -r issue; do
   title=$(echo "$issue" | jq -r '.title')
@@ -74,7 +74,17 @@ while IFS= read -r issue; do
   milestone_title=$(echo "$issue" | jq -r '.milestone')  
   labels=$(echo "$issue" | jq -r '.labels | join(",")')
 
-  # Obtenha o Number correspondente usando o título da milestone
+  # Verificar se a milestone existe no mapeamento
+  if [[ -z "${MILESTONE_MAP[$milestone_title]:-}" ]]; then
+    echo "❌ ERRO: Milestone '$milestone_title' não encontrada no mapeamento!"
+    echo "   Issue: $title"
+    echo "   Milestones disponíveis:"
+    for t in "${!MILESTONE_MAP[@]}"; do
+      echo "     - $t"
+    done
+    continue
+  fi
+
   milestone_id=${MILESTONE_MAP["$milestone_title"]}
 
   echo "📌 Criando issue: $title (milestone: $milestone_title -> ID: $milestone_id)"
@@ -84,7 +94,7 @@ while IFS= read -r issue; do
     --title "$title" \
     --body "$body" \
     --assignee "$assignees" \
-    --milestone "$milestone_id" \
+    --milestone "$milestone_title" \
     --label "$labels"
 done < <(jq -c '.[]' issues.json)
 
