@@ -2,37 +2,37 @@
   {
     "title": "Setup do Ambiente de Desenvolvimento Local.",
     "body": "Configurar ambiente de desenvolvimento local com Docker para todos os desenvolvedores.\n\nTasks:\n\n- [ ]  Criar `.dockerignore` com arquivos a ignorar.\n- [ ]  Criar `docker-compose.yml` base.\n- [ ]  Criar `docker-compose.dev.yml` com hot-reload.\n- [ ]  Criar `docker-compose.test.yml` para testes.\n- [ ]  Documentar no README.md como rodar localmente.\n- [ ]  Criar script `scripts/setup-dev.sh` para first-time setup.\n- [ ]  Testar em máquinas Windows, Mac e Linux.\n\nCritérios de Aceitação:\n\n- [ ]  `docker-compose up` sobe a aplicação completa.\n- [ ]  Hot reload funciona (mudanças no código refletem sem rebuild)\n- [ ]  Banco de dados persiste entre restarts.\n- [ ]  Logs aparecem no terminal de forma legível.\n- [ ]  Documentação permite que novo dev configure em < 15 minutos.\n\nDependências: Nenhuma",
-    "labels": ["DevOps"],
-    "assignees": ["eliezer-pires"],
+    "labels": ["DevOps", "setup", "prioridade:crítica"],
+    "assignees": "eliezer-pires",
     "milestone": "Sprint 1 - Fundação do Projeto"
   },
   {
-    "title": "Criar milestones semanais correspondentes às sprints",
-    "body": "Adicionar milestones Sprint 1 a Sprint 6.",
-    "assignees": ["eliezer-pires"],
-    "milestone": 1,
-    "labels": ["Project Manager"]
+    "title": "Dockerfile Multi-Stage.",
+    "body": "Criar Dockerfile otimizado com multi-stage build para reduzir tamanho da imagem e melhorar segurança.\n\n**Tasks:**\n- [ ]  Stage 1: Base image (Node 18 Alpine).\n- [ ]  Stage 2: Dependencies (npm install).\n- [ ]  Stage 3: Builder (TypeScript compile)\n- [ ]  Stage 4: Production runtime (apenas necessário)\n- [ ]  Criar usuário não-root para execução.\n- [ ]  Otimizar layers para cache.\n- [ ]  Testar build localmente.\n- [ ]  Medir tamanho da imagem (meta: < 500MB).\n**Critérios de Aceitação:**\n- [ ]  Build completo em < 5 minutos (com cache).\n- [ ]  Imagem final < 500MB.\n- [ ]  Container roda como usuário não-root.\n- [ ]  `docker build --target production` funciona.\n- [ ]  `docker build --target development` funciona.\n**Dependências:** #1",
+    "labels": ["DevOps", "docker", "prioridade:crítica"],
+    "assignees": "eliezer-pires",
+    "milestone": "Sprint 1 - Fundação do Projeto"
   },
   {
-    "title": "Adicionar documentação inicial",
-    "body": "Criar README.md e CONTRIBUTING.md.",
-    "assignees": ["eliezer-pires"],
-    "milestone": 1,
-    "labels": ["Project Manager"]
+    "title": "Sistema de Configuração por Ambiente.",
+    "body": "Implementar sistema centralizado de configuração usando variáveis de ambiente.\n\n**Tasks:**\n- [ ]  Criar `src/config/index.ts` com interface tipada.\n- [ ]  Implementar funções helpers (getEnv, getBoolEnv, getNumberEnv)\n- [ ]  Adicionar validação de configs obrigatórias.\n- [ ]  Criar `.env.example` com todas as variáveis documentadas.\n- [ ]  Substituir configs hardcoded no código por `config.*`\n- [ ]  Adicionar validação de ambiente (dev/staging/prod)\n- [ ]  Documentar cada variável no README.\n**Critérios de Aceitação:**\n- [ ]  Nenhum valor hardcoded no código.\n- [ ]  App falha rápido se config obrigatória faltando.\n- [ ]  TypeScript valida tipos das configs.\n- [ ]  `.env.example` lista todas as variáveis.\n- [ ]  Testes unitários para validação de config.\n**Dependências:** Nenhuma.\n",
+    "labels": ["Backend", "config", "prioridade:crítica"],
+    "assignees": ["eliezer-pires", "EdimarLins"],
+    "milestone": "Sprint 1 - Fundação do Projeto"
   },
   {
-    "title": "Configurar Dockerfile para frontend e backend",
-    "body": "Criar os Dockerfiles para que o stack rode em containers.",
-    "assignees": ["eliezer-pires"],
-    "milestone": 1,
-    "labels": ["DevOps"]
+    "title": "Logging Estruturado.",
+    "body": "Substituir console.log por sistema de logging estruturado (JSON em produção).\n\n**Tasks:**\n- [ ]  Criar `src/utils/logger.ts` com classe Logger.\n- [ ]  Implementar níveis: ERROR, WARN, INFO, DEBUG.\n- [ ]  Formato JSON em produção, human-readable em dev.\n- [ ]  Adicionar contexto automático (timestamp, environment, service).\n- [ ]  Implementar child logger com contexto adicional.\n- [ ]  Substituir todos `console.log` por `logger.*`\n- [ ]  Configurar nível de log por ambiente.\n**Critérios de Aceitação:**\n- [ ]  Todos logs em JSON no ambiente production.\n- [ ]  Logs coloridos e legíveis em development.\n- [ ]  Nenhum `console.log` no código (exceto casos extremos).\n- [ ]  Logs incluem timestamp, level, message, context.\n- [ ]  Erros incluem stack trace em development.\n**Dependências:** #3\n",
+    "labels": ["Backend", "observabilidade", "prioridade:alta"],
+    "assignees": ["EdimarLins"],
+    "milestone": "Sprint 1 - Fundação do Projeto"
   },
   {
-    "title": "Criar docker-compose.yml",
-    "body": "Orquestrar frontend, backend e banco de dados localmente.",
-    "assignees": ["eliezer-pires"],
-    "milestone": 1,
-    "labels": ["DevOps"]
+    "title": "Configuração Frontend por Ambiente.",
+    "body": "Configurar variáveis de ambiente no frontend (Vite).\n\n**Tasks:**\n- [ ]  Criar `.env.development` com variáveis locais.\n- [ ]  Criar `.env.production` com placeholders.\n- [ ]  Criar `src/config/frontend.ts` para centralizar configs.\n- [ ]  Substituir URLs hardcoded por `config.apiUrl`.\n- [ ]  Adicionar validação de variáveis obrigatórias.\n- [ ]  Documentar no README como configurar.\n**Critérios de Aceitação:**\n- [ ]  Build de produção usa variáveis corretas.\n- [ ]  API URL muda conforme ambiente.\n- [ ]  TypeScript valida configurações.\n- [ ]  Nenhuma URL hardcoded no código.\n**Dependências:** Nenhuma",
+    "labels": ["Frontend", "config", "prioridade:alta"],
+    "assignees": ["EdimarLins", "eliezer-pires"],
+    "milestone": "Sprint 1 - Fundação do Projeto"
   },
   {
     "title": "Configurar GitHub Actions CI inicial",
