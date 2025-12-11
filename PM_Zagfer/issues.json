@@ -3,235 +3,210 @@
     "title": "Setup do Ambiente de Desenvolvimento Local.",
     "body": "Configurar ambiente de desenvolvimento local com Docker para todos os desenvolvedores.\n\nTasks:\n\n- [ ]  Criar `.dockerignore` com arquivos a ignorar.\n- [ ]  Criar `docker-compose.yml` base.\n- [ ]  Criar `docker-compose.dev.yml` com hot-reload.\n- [ ]  Criar `docker-compose.test.yml` para testes.\n- [ ]  Documentar no README.md como rodar localmente.\n- [ ]  Criar script `scripts/setup-dev.sh` para first-time setup.\n- [ ]  Testar em máquinas Windows, Mac e Linux.\n\nCritérios de Aceitação:\n\n- [ ]  `docker-compose up` sobe a aplicação completa.\n- [ ]  Hot reload funciona (mudanças no código refletem sem rebuild)\n- [ ]  Banco de dados persiste entre restarts.\n- [ ]  Logs aparecem no terminal de forma legível.\n- [ ]  Documentação permite que novo dev configure em < 15 minutos.\n\nDependências: Nenhuma",
     "labels": ["DevOps", "setup", "prioridade:crítica"],
-    "assignees": "eliezer-pires",
+    "assignees": ["eliezer-pires"],
     "milestone": "Sprint 1 - Fundação do Projeto"
   },
   {
     "title": "Dockerfile Multi-Stage.",
     "body": "Criar Dockerfile otimizado com multi-stage build para reduzir tamanho da imagem e melhorar segurança.\n\n**Tasks:**\n- [ ]  Stage 1: Base image (Node 18 Alpine).\n- [ ]  Stage 2: Dependencies (npm install).\n- [ ]  Stage 3: Builder (TypeScript compile)\n- [ ]  Stage 4: Production runtime (apenas necessário)\n- [ ]  Criar usuário não-root para execução.\n- [ ]  Otimizar layers para cache.\n- [ ]  Testar build localmente.\n- [ ]  Medir tamanho da imagem (meta: < 500MB).\n**Critérios de Aceitação:**\n- [ ]  Build completo em < 5 minutos (com cache).\n- [ ]  Imagem final < 500MB.\n- [ ]  Container roda como usuário não-root.\n- [ ]  `docker build --target production` funciona.\n- [ ]  `docker build --target development` funciona.\n**Dependências:** #1",
     "labels": ["DevOps", "docker", "prioridade:crítica"],
-    "assignees": "eliezer-pires",
+    "assignees": ["eliezer-pires"],
     "milestone": "Sprint 1 - Fundação do Projeto"
   },
   {
     "title": "Sistema de Configuração por Ambiente.",
     "body": "Implementar sistema centralizado de configuração usando variáveis de ambiente.\n\n**Tasks:**\n- [ ]  Criar `src/config/index.ts` com interface tipada.\n- [ ]  Implementar funções helpers (getEnv, getBoolEnv, getNumberEnv)\n- [ ]  Adicionar validação de configs obrigatórias.\n- [ ]  Criar `.env.example` com todas as variáveis documentadas.\n- [ ]  Substituir configs hardcoded no código por `config.*`\n- [ ]  Adicionar validação de ambiente (dev/staging/prod)\n- [ ]  Documentar cada variável no README.\n**Critérios de Aceitação:**\n- [ ]  Nenhum valor hardcoded no código.\n- [ ]  App falha rápido se config obrigatória faltando.\n- [ ]  TypeScript valida tipos das configs.\n- [ ]  `.env.example` lista todas as variáveis.\n- [ ]  Testes unitários para validação de config.\n**Dependências:** Nenhuma.\n",
     "labels": ["Backend", "config", "prioridade:crítica"],
-    "assignees": ["eliezer-pires", "EdimarLins"],
+    "assignees": ["Fabiano01x","eliezer-pires"],
     "milestone": "Sprint 1 - Fundação do Projeto"
   },
   {
     "title": "Logging Estruturado.",
     "body": "Substituir console.log por sistema de logging estruturado (JSON em produção).\n\n**Tasks:**\n- [ ]  Criar `src/utils/logger.ts` com classe Logger.\n- [ ]  Implementar níveis: ERROR, WARN, INFO, DEBUG.\n- [ ]  Formato JSON em produção, human-readable em dev.\n- [ ]  Adicionar contexto automático (timestamp, environment, service).\n- [ ]  Implementar child logger com contexto adicional.\n- [ ]  Substituir todos `console.log` por `logger.*`\n- [ ]  Configurar nível de log por ambiente.\n**Critérios de Aceitação:**\n- [ ]  Todos logs em JSON no ambiente production.\n- [ ]  Logs coloridos e legíveis em development.\n- [ ]  Nenhum `console.log` no código (exceto casos extremos).\n- [ ]  Logs incluem timestamp, level, message, context.\n- [ ]  Erros incluem stack trace em development.\n**Dependências:** #3\n",
     "labels": ["Backend", "observabilidade", "prioridade:alta"],
-    "assignees": ["EdimarLins"],
+    "assignees": ["Fabiano01x","eliezer-pires"],
     "milestone": "Sprint 1 - Fundação do Projeto"
   },
   {
     "title": "Configuração Frontend por Ambiente.",
-    "body": "Configurar variáveis de ambiente no frontend (Vite).\n\n**Tasks:**\n- [ ]  Criar `.env.development` com variáveis locais.\n- [ ]  Criar `.env.production` com placeholders.\n- [ ]  Criar `src/config/frontend.ts` para centralizar configs.\n- [ ]  Substituir URLs hardcoded por `config.apiUrl`.\n- [ ]  Adicionar validação de variáveis obrigatórias.\n- [ ]  Documentar no README como configurar.\n**Critérios de Aceitação:**\n- [ ]  Build de produção usa variáveis corretas.\n- [ ]  API URL muda conforme ambiente.\n- [ ]  TypeScript valida configurações.\n- [ ]  Nenhuma URL hardcoded no código.\n**Dependências:** Nenhuma",
+    "body": "Configurar variáveis de ambiente no Frontend (Vite).\n\n**Tasks:**\n- [ ]  Criar `.env.development` com variáveis locais.\n- [ ]  Criar `.env.production` com placeholders.\n- [ ]  Criar `src/config/Frontend.ts` para centralizar configs.\n- [ ]  Substituir URLs hardcoded por `config.apiUrl`.\n- [ ]  Adicionar validação de variáveis obrigatórias.\n- [ ]  Documentar no README como configurar.\n**Critérios de Aceitação:**\n- [ ]  Build de produção usa variáveis corretas.\n- [ ]  API URL muda conforme ambiente.\n- [ ]  TypeScript valida configurações.\n- [ ]  Nenhuma URL hardcoded no código.\n**Dependências:** Nenhuma",
     "labels": ["Frontend", "config", "prioridade:alta"],
-    "assignees": ["EdimarLins", "eliezer-pires"],
+    "assignees": ["EdimarLins"],
     "milestone": "Sprint 1 - Fundação do Projeto"
   },
   {
-    "title": "Configurar GitHub Actions CI inicial",
-    "body": "Pipeline com build e lint do frontend/backend.",
+    "title": "Health Check Endpoints",
+    "body": "Implementar endpoints de health check para liveness e readiness.\n\n**Story Points:** 5\n**Prioridade:** 🔴 Crítica\n\n## Tasks\n- [ ] Criar `src/server/routes/health.ts`\n- [ ] Implementar `GET /health` (liveness)\n- [ ] Implementar `GET /health/ready` (readiness)\n- [ ] Implementar `checkDatabase()` com timeout\n- [ ] Implementar `checkRedis()` (se aplicável)\n- [ ] Implementar `checkFilesystem()`\n- [ ] Retornar status, latência e detalhes\n- [ ] Adicionar healthcheck no docker-compose\n\n## Critérios de Aceitação\n- [ ] `/health` retorna 200 se processo vivo\n- [ ] `/health/ready` testa DB e retorna status correto\n- [ ] Response inclui latência de cada componente\n- [ ] Docker reinicia container se unhealthy\n- [ ] Documentação explica cada endpoint\n\n## Dependências\n#3, #4",
+    "labels": ["Backend", "observabilidade", "prioridade:crítica"],
+    "assignees": ["Fabiano01x", "eliezer-pires"],
+    "milestone": "Sprint 2 - Observabilidade e Autenticação"
+  },
+  {
+    "title": "Request ID e Rastreamento",
+    "body": "Adicionar Request ID único para rastrear requisições end-to-end.\n\n**Story Points:** 3\n**Prioridade:** 🟡 Alta\n\n## Tasks\n- [ ] Criar `src/middleware/requestId.ts`\n- [ ] Gerar UUID para cada requisição\n- [ ] Adicionar header `X-Request-ID` na resposta\n- [ ] Adicionar requestId ao logger de cada request\n- [ ] Criar child logger com contexto do request\n- [ ] Medir latência de cada requisição\n- [ ] Logar entrada e saída de cada request\n\n## Critérios de Aceitação\n- [ ] Cada request tem ID único\n- [ ] ID aparece em todos os logs da request\n- [ ] Header `X-Request-ID` incluso na resposta\n- [ ] Latência é logada ao finalizar request\n- [ ] Possível filtrar logs por requestId\n\n## Dependências\n#4",
+    "labels": ["Backend", "observabilidade", "prioridade:alta"],
+    "assignees": ["Fabiano01x", "eliezer-pires"],
+    "milestone": "Sprint 2 - Observabilidade e Autenticação"
+  },
+  {
+    "title": "Error Handler Centralizado",
+    "body": "Implementar tratamento centralizado de erros com respostas padronizadas.\n\n**Story Points:** 5\n**Prioridade:** 🔴 Crítica\n\n## Tasks\n- [ ] Criar `src/middleware/errorHandler.ts`\n- [ ] Implementar classe `AppError` base\n- [ ] Criar erros específicos (NotFoundError, ValidationError, etc)\n- [ ] Implementar handler para erros do Prisma\n- [ ] Implementar middleware de error handling (último da cadeia)\n- [ ] Ocultar stack trace em produção\n- [ ] Criar helper `asyncHandler` para rotas async\n- [ ] Substituir try/catch manual por asyncHandler\n\n## Critérios de Aceitação\n- [ ] Todos erros retornam formato JSON consistente\n- [ ] Stack trace apenas em development\n- [ ] Erros do Prisma são tratados adequadamente\n- [ ] Rotas inexistentes retornam 404\n- [ ] Logs automáticos de todos erros\n\n## Dependências\n#4, #7",
+    "labels": ["Backend", "error-handling", "prioridade:crítica"],
+    "assignees": ["Fabiano01x"],
+    "milestone": "Sprint 2 - Observabilidade e Autenticação"
+  },
+  {
+    "title": "CORS e Segurança",
+    "body": "Configurar CORS, headers de segurança e rate limiting.\n\n**Story Points:** 3\n**Prioridade:** 🟡 Alta\n\n## Tasks\n- [ ] Criar `src/middleware/security.ts`\n- [ ] Configurar CORS com whitelist de origens\n- [ ] Adicionar Helmet para headers de segurança\n- [ ] Implementar rate limiting global\n- [ ] Implementar rate limiting para auth\n- [ ] Configurar origens CORS por ambiente\n- [ ] Documentar configurações de segurança\n\n## Critérios de Aceitação\n- [ ] CORS permite apenas origins configuradas\n- [ ] Headers de segurança presentes (HSTS, CSP, etc)\n- [ ] Rate limit global: 100 req/15min\n- [ ] Rate limit auth: 5 tentativas/15min\n- [ ] Health checks não são rate limited\n\n## Dependências\n#3",
+    "labels": ["Backend", "security", "prioridade:alta"],
+    "assignees": ["Fabiano01x", "eliezer-pires"],
+    "milestone": "Sprint 2 - Observabilidade e Autenticação"
+  },
+  {
+    "title": "Dashboard de Logs (Frontend)",
+    "body": "Criar página para visualizar logs e health status da aplicação.\n\n**Story Points:** 8\n**Prioridade:** 🟢 Média\n\n## Tasks\n- [ ] Criar página `/admin/logs`\n- [ ] Criar componente `LogViewer`\n- [ ] Consumir endpoint de health checks\n- [ ] Mostrar status de cada componente (DB, Redis, etc)\n- [ ] Filtrar logs por nível (error, warn, info)\n- [ ] Buscar logs por requestId\n- [ ] Auto-refresh a cada 30s\n- [ ] Exportar logs como CSV/JSON\n\n## Critérios de Aceitação\n- [ ] Visualização em tempo real do health status\n- [ ] Filtros funcionando (nível, data, requestId)\n- [ ] Interface responsiva e intuitiva\n- [ ] Performance com > 1000 logs\n- [ ] Exportação funcionando\n\n## Dependências\n#6, #7",
+    "labels": ["Frontend", "observabilidade", "prioridade:média"],
+    "assignees": ["EdimarLins"],
+    "milestone": "Sprint 2 - Observabilidade e Autenticação"
+  },
+  {
+    "title": "Graceful Shutdown",
+    "body": "Implementar shutdown gracioso para zero downtime em deploys.\n\n**Tasks:**\n- [ ]  Modificar `src/server/index.ts` para capturar SIGTERM/SIGINT\n- [ ]  Middleware para rejeitar novas requisições durante shutdown\n- [ ]  Rastrear conexões ativas\n- [ ]  Aguardar requisições em andamento finalizarem (timeout 30s)\n- [ ]  Fechar conexões com DB, Redis\n- [ ]  Implementar timeout de segurança (35s força exit)\n- [ ]  Testar shutdown durante requisições longas\n- [ ]  Documentar processo de shutdown\n\n**Critérios de Aceitação:**\n- [ ]  Deploy não interrompe requisições em andamento\n- [ ]  Novas requisições retornam 503 durante shutdown\n- [ ]  Conexões DB fechadas corretamente\n- [ ]  Timeout força exit após 35s\n- [ ]  Logs claros do processo de shutdown\n\n**Dependências:** #4, #7",
+    "labels": ["Backend", "reliability", "prioridade:crítica"],
+    "assignees": ["Fabiano01x", "eliezer-pires"],
+    "milestone": "Sprint 3 - Resiliência"
+  },
+  {
+    "title": "Retry Logic e Circuit Breaker",
+    "body": "Implementar retry automático e circuit breaker para serviços externos.\n\n**Tasks:**\n- [ ]  Criar `src/utils/retry.ts` com lógica de retry exponencial\n- [ ]  Implementar circuit breaker para DB\n- [ ]  Implementar circuit breaker para Redis\n- [ ]  Configurar tentativas e timeouts\n- [ ]  Logar tentativas de retry\n- [ ]  Métricas de circuit breaker (open/closed/half-open)\n- [ ]  Testes unitários de retry logic\n\n**Critérios de Aceitação:**\n- [ ]  Retry automático em falhas transientes\n- [ ]  Circuit breaker abre após N falhas consecutivas\n- [ ]  Circuit breaker fecha após período de cooldown\n- [ ]  Logs indicam tentativas de retry\n- [ ]  Métricas exportadas\n\n**Dependências:** #4",
+    "labels": ["Backend", "reliability", "prioridade:alta"],
+    "assignees": ["Fabiano01x", "eliezer-pires"],
+    "milestone": "Sprint 3 - Resiliência"
+  },
+  {
+    "title": "Database Migrations com Prisma",
+    "body": "Setup de migrations versionadas de banco de dados.\n\n**Tasks:**\n- [ ]  Configurar Prisma no projeto\n- [ ]  Criar `prisma/schema.prisma` com modelos\n- [ ]  Criar migration inicial\n- [ ]  Script `scripts/migrate.sh` para rodar migrations\n- [ ]  Configurar migrations no CI/CD\n- [ ]  Wait-for-db antes de rodar migrations\n- [ ]  Documentar processo de migrations\n- [ ]  Criar seeds para dados iniciais\n\n**Critérios de Aceitação:**\n- [ ]  Schema versionado no Git\n- [ ]  Migrations rodam idempotentemente\n- [ ]  Script aguarda DB estar pronto\n- [ ]  Rollback possível\n- [ ]  Documentação de como criar novas migrations\n\n**Dependências:** #1, #3",
+    "labels": ["Backend", "database", "prioridade:crítica"],
+    "assignees": ["Fabiano01x", "eliezer-pires"],
+    "milestone": "Sprint 3 - Resiliência"
+  },
+  {
+    "title": "Backup Automático de Banco",
+    "body": "Implementar backups automáticos do banco de dados.\n\n**Tasks:**\n- [ ]  Script `scripts/backup-db.sh`\n- [ ]  Backup completo diário (pg_dump)\n- [ ]  Backup incremental a cada 6h\n- [ ]  Rotação de backups (manter últimos 7 dias)\n- [ ]  Compressão de backups\n- [ ]  Testar restauração de backup\n- [ ]  Configurar cron job no servidor\n- [ ]  Monitoramento de falhas de backup\n\n**Critérios de Aceitação:**\n- [ ]  Backups rodando automaticamente\n- [ ]  Backups comprimidos e datados\n- [ ]  Rotação automática funcionando\n- [ ]  Restauração testada e documentada\n- [ ]  Alertas se backup falhar\n\n**Dependências:** #13",
+    "labels": ["DevOps", "database", "prioridade:alta"],
     "assignees": ["eliezer-pires"],
-    "milestone": 1,
-    "labels": ["DevOps"]
+    "milestone": "Sprint 3 - Resiliência"
   },
   {
-    "title": "Criar esqueleto do projeto em FastAPI",
-    "body": "Iniciar backend em Python com FastAPI e configurar rota /health.",
-    "assignees": ["KeltonMarques", "eliezer-pires"],
-    "milestone": 1,
-    "labels": ["Backend"]
+    "title": "Feature Flags",
+    "body": "Sistema de feature flags para deploy dark e gradual rollout.\n\n**Tasks:**\n- [ ]  Backend: Criar `src/features/flags.ts`\n- [ ]  Backend: Implementar isEnabled() com percentage rollout\n- [ ]  Backend: Endpoint `/api/features` para Frontend\n- [ ]  Frontend: Hook `useFeatureFlag()`\n- [ ]  Frontend: Context provider para features\n- [ ]  Documentar como criar nova feature flag\n- [ ]  Exemplos de uso em rotas e componentes\n- [ ]  Configurar flags via ENV vars\n\n**Critérios de Aceitação:**\n- [ ]  Backend verifica flags corretamente\n- [ ]  Gradual rollout funciona (percentage)\n- [ ]  Frontend consome flags via API\n- [ ]  Hook React funciona reativamente\n- [ ]  Documentação completa de uso\n\n**Dependências:** #3, #8",
+    "labels": ["Backend", "Frontend", "feature-management", "prioridade:média"],
+    "assignees": ["Fabiano01x", "EdimarLins", "eliezer-pires"],
+    "milestone": "Sprint 3 - Resiliência"
   },
   {
-    "title": "Configurar banco de dados no container",
-    "body": "Adicionar PostgreSQL/MySQL no docker-compose.",
-    "assignees": ["KeltonMarques", "eliezer-pires"],
-    "milestone": 1,
-    "labels": ["Backend"]
+    "title": "GitHub Actions - Validate Stage",
+    "body": "Criar pipeline de validação (lint, typecheck, format).\n\n**Tasks:**\n- [ ]  Criar `.github/workflows/ci.yml`\n- [ ]  Job: Lint (ESLint)\n- [ ]  Job: Type check (TypeScript)\n- [ ]  Job: Format check (Prettier)\n- [ ]  Cache de node_modules\n- [ ]  Rodar em todos branches\n- [ ]  Status badge no README\n- [ ]  Fail rápido se validação falhar\n\n**Critérios de Aceitação:**\n- [ ]  Pipeline roda em < 3 minutos\n- [ ]  Lint, typecheck e format funcionam\n- [ ]  Cache acelera builds subsequentes\n- [ ]  Badge mostra status no README\n- [ ]  PRs bloqueados se validação falhar\n\n**Dependências:** #1, #2",
+    "labels": ["DevOps", "ci-cd", "prioridade:crítica"],
+    "assignees": ["eliezer-pires"],
+    "milestone": "Sprint 4 - CI/CD Foundations"
   },
   {
-    "title": "Criar endpoint /health",
-    "body": "Endpoint simples para verificação de status.",
-    "assignees": ["KeltonMarques", "eliezer-pires"],
-    "milestone": 1,
-    "labels": ["Backend"]
+    "title": "GitHub Actions - Test Stage",
+    "body": "Adicionar testes automatizados no pipeline.\n\n**Tasks:**\n- [ ]  Job: Testes unitários (Vitest/Jest)\n- [ ]  Job: Testes de integração\n- [ ]  Subir containers de teste (DB, Redis)\n- [ ]  Gerar coverage report\n- [ ]  Upload coverage para Codecov/Coveralls\n- [ ]  Configurar threshold mínimo (80%)\n- [ ]  Artifacts de coverage\n- [ ]  Relatório visual de testes\n\n**Critérios de Aceitação:**\n- [ ]  Testes unitários rodam em < 5 minutos\n- [ ]  Coverage > 80%\n- [ ]  Testes integração com DB real\n- [ ]  Coverage badge no README\n- [ ]  PRs bloqueados se testes falharem\n\n**Dependências:** #16",
+    "labels": ["DevOps", "ci-cd", "testing", "prioridade:crítica"],
+    "assignees": ["eliezer-pires"],
+    "milestone": "Sprint 4 - CI/CD Foundations"
   },
   {
-    "title": "Criar estrutura inicial React + Vite + Tailwind",
-    "body": "Configurar frontend com React, Vite e Tailwind + Hello App.",
-    "assignees": ["ramosrms245"],
-    "milestone": 1,
-    "labels": ["Frontend"]
+    "title": "GitHub Actions - Build e Push Image",
+    "body": "Build de imagem Docker e push para registry.\n\n**Tasks:**\n- [ ]  Job: Build Docker image\n- [ ]  Multi-platform build (amd64, arm64)\n- [ ]  Tag com versão semântica\n- [ ]  Tag com commit SHA\n- [ ]  Tag `latest` para branch main\n- [ ]  Push para GitHub Container Registry (ghcr.io)\n- [ ]  Cache de layers Docker\n- [ ]  Scan de vulnerabilidades (Trivy)\n\n**Critérios de Aceitação:**\n- [ ]  Build em < 10 minutos (com cache)\n- [ ]  Imagem taggeada corretamente\n- [ ]  Push apenas se testes passarem\n- [ ]  Scan não encontra vulnerabilidades críticas\n- [ ]  Imagem disponível no ghcr.io\n\n**Dependências:** #2, #17",
+    "labels": ["DevOps", "ci-cd", "docker", "prioridade:crítica"],
+    "assignees": ["eliezer-pires"],
+    "milestone": "Sprint 4 - CI/CD Foundations"
   },
   {
-    "title": "Definir modelos e ORM",
-    "body": "Configurar SQLAlchemy com modelos iniciais.",
-    "assignees": ["KeltonMarques", "eliezer-pires"],
-    "milestone": 2,
-    "labels": ["Backend"]
+    "title": "Ambientes Multi-Staging",
+    "body": "Configurar ambientes dev, staging e production.\n\n**Tasks:**\n- [ ]  Branch `develop` → deploy automático para DEV\n- [ ]  Branch `staging` → deploy automático para STAGING\n- [ ]  Tags `v*` → deploy manual para PROD\n- [ ]  Secrets por ambiente no GitHub\n- [ ]  ENV vars específicas por ambiente\n- [ ]  Approval manual para PROD\n- [ ]  Documentar estratégia de branches\n\n**Critérios de Aceitação:**\n- [ ]  3 ambientes funcionando (dev, staging, prod)\n- [ ]  Deploy automático em dev e staging\n- [ ]  Deploy prod requer approval\n- [ ]  Secrets isolados por ambiente\n- [ ]  Documentação da estratégia\n\n**Dependências:** #18",
+    "labels": ["DevOps", "environments", "prioridade:alta"],
+    "assignees": ["eliezer-pires"],
+    "milestone": "Sprint 4 - CI/CD Foundations"
   },
   {
-    "title": "Implementar CRUD de usuário",
-    "body": "Criar endpoints de criação, leitura, atualização e remoção.",
-    "assignees": ["KeltonMarques", "eliezer-pires"],
-    "milestone": 2,
-    "labels": ["Backend"]
+    "title": "Script de Deploy Offline",
+    "body": "Criar script para deploy em servidor sem internet.\n\n**Tasks:**\n- [ ]  Script `scripts/deploy-offline.sh`\n- [ ]  Build imagem localmente\n- [ ]  Salvar imagem como .tar.gz\n- [ ]  Transferir via SCP para servidor\n- [ ]  SSH e carregar imagem no servidor\n- [ ]  Rodar migrations no servidor\n- [ ]  Deploy com zero downtime\n- [ ]  Health check pós-deploy\n- [ ]  Rollback automático se falhar\n\n**Critérios de Aceitação:**\n- [ ]  Deploy completo em < 10 minutos\n- [ ]  Zero downtime durante deploy\n- [ ]  Migrations rodam antes do deploy\n- [ ]  Health check valida deploy\n- [ ]  Rollback funciona se deploy falhar\n\n**Dependências:** #11, #13, #18",
+    "labels": ["DevOps", "deployment", "prioridade:crítica"],
+    "assignees": ["eliezer-pires"],
+    "milestone": "Sprint 4 - CI/CD Foundations"
   },
   {
-    "title": "Implementar autenticação JWT",
-    "body": "Login e registro de usuários com tokens JWT.",
-    "assignees": ["KeltonMarques", "eliezer-pires"],
-    "milestone": 2,
-    "labels": ["Backend"]
+    "title": "Métricas com Prometheus",
+    "labels": ["DevOps", "observabilidade", "prioridade:alta"],
+    "assignees": ["eliezer-pires"],
+    "milestone": "Sprint 5 - Monitoramento Avançado",
+    "body": "**Descrição:**\nExpor métricas da aplicação para Prometheus.\n\n**Tasks:**\n- [ ] Instalar prom-client\n- [ ] Endpoint `/metrics` com métricas\n- [ ] Métricas: HTTP requests (counter)\n- [ ] Métricas: HTTP duration (histogram)\n- [ ] Métricas: HTTP errors (counter)\n- [ ] Métricas: DB connection pool\n- [ ] Métricas: Event loop lag\n- [ ] Configurar Prometheus para scrape\n\n**Critérios de Aceitação:**\n- [ ] Endpoint `/metrics` expõe formato Prometheus\n- [ ] Métricas básicas funcionando\n- [ ] Prometheus fazendo scrape a cada 15s\n- [ ] Dashboards básicos no Grafana\n- [ ] Documentação de métricas disponíveis\n\n**Dependências:** #6\n\n**Story Points:** 8\n**Prioridade:** 🟡 Alta"
   },
   {
-    "title": "Criar documentação Swagger",
-    "body": "Documentar endpoints automaticamente via FastAPI.",
-    "assignees": ["KeltonMarques", "eliezer-pires"],
-    "milestone": 2,
-    "labels": ["Backend"]
+    "title": "Dashboard Grafana",
+    "labels": ["DevOps", "observabilidade", "prioridade:alta"],
+    "assignees": ["eliezer-pires"],
+    "milestone": "Sprint 5 - Monitoramento Avançado",
+    "body": "**Descrição:**\nCriar dashboards visuais no Grafana.\n\n**Tasks:**\n- [ ] Setup Grafana via Docker Compose\n- [ ] Dashboard: Visão geral (uptime, requests, errors)\n- [ ] Dashboard: Performance (latência, throughput)\n- [ ] Dashboard: Infraestrutura (CPU, RAM, Disk)\n- [ ] Dashboard: Banco de dados (queries, connections)\n- [ ] Configurar datasource Prometheus\n- [ ] Exportar dashboards como JSON\n- [ ] Documentar acesso e uso\n\n**Critérios de Aceitação:**\n- [ ] Grafana acessível via browser\n- [ ] 3+ dashboards funcionais\n- [ ] Dados em tempo real\n- [ ] Dashboards versionados no Git\n- [ ] Documentação de como usar\n\n**Dependências:** #21\n\n**Story Points:** 5\n**Prioridade:** 🟡 Alta"
   },
   {
-    "title": "Configurar rotas no frontend",
-    "body": "Usar React Router para navegação entre páginas.",
-    "assignees": ["ramosrms245"],
-    "milestone": 2,
-    "labels": ["Frontend"]
-  },
-
-  {
-    "title": "Criar endpoints de materiais (CRUD)",
-    "body": "API para gerenciar materiais.",
-    "assignees": ["KeltonMarques", "eliezer-pires"],
-    "milestone": 3,
-    "labels": ["Backend"]
+    "title": "Alertas Automáticos",
+    "labels": ["DevOps", "observabilidade", "prioridade:média"],
+    "assignees": ["eliezer-pires"],
+    "milestone": "Sprint 5 - Monitoramento Avançado",
+    "body": "**Descrição:**\nConfigurar alertas para problemas críticos.\n\n**Tasks:**\n- [ ] Alertas: CPU > 80% por 5 minutos\n- [ ] Alertas: Memória > 90%\n- [ ] Alertas: Disco > 85%\n- [ ] Alertas: Error rate > 5%\n- [ ] Alertas: Latência p95 > 1s\n- [ ] Alertas: Health check falhou\n- [ ] Configurar notificações (email/Slack)\n- [ ] Documentar runbooks\n\n**Critérios de Aceitação:**\n- [ ] 6+ regras de alerta configuradas\n- [ ] Alertas testados\n- [ ] Notificações chegam em < 5 minutos\n- [ ] Runbooks documentados\n- [ ] Sem falsos positivos\n\n**Dependências:** #22\n\n**Story Points:** 5\n**Prioridade:** 🟢 Média"
   },
   {
-    "title": "Adicionar seeds no banco",
-    "body": "Popular banco com dados fake para testes.",
-    "assignees": ["KeltonMarques"],
-    "milestone": 3,
-    "labels": ["Backend"]
+    "title": "Logs Centralizados (Loki)",
+    "labels": ["DevOps", "observabilidade", "prioridade:média"],
+    "assignees": ["eliezer-pires"],
+    "milestone": "Sprint 5 - Monitoramento Avançado",
+    "body": "**Descrição:**\nCentralizar logs no Loki.\n\n**Tasks:**\n- [ ] Setup Grafana Loki\n- [ ] Configurar Promtail\n- [ ] Integrar com Grafana\n- [ ] Labels úteis\n- [ ] Queries salvas\n- [ ] Retenção 30 dias\n- [ ] Documentação\n\n**Critérios de Aceitação:**\n- [ ] Logs centralizados\n- [ ] Busca por requestId\n- [ ] Busca por level\n- [ ] Performance >10k logs/min\n- [ ] Documentação completa\n\n**Dependências:** #4, #7\n\n**Story Points:** 8\n**Prioridade:** 🟢 Média"
   },
   {
-    "title": "Criar layout principal",
-    "body": "Header, Sidebar e Dashboard do frontend.",
-    "assignees": ["ramosrms245"],
-    "milestone": 3,
-    "labels": ["Frontend"]
+    "title": "APM e Tracing (Opcional)",
+    "labels": ["DevOps", "observabilidade", "prioridade:baixa"],
+    "assignees": ["eliezer-pires"],
+    "milestone": "Sprint 5 - Monitoramento Avançado",
+    "body": "**Descrição:**\nImplementar tracing distribuído.\n\n**Tasks:**\n- [ ] Avaliar ferramentas (Jaeger/Zipkin)\n- [ ] Instrumentar app\n- [ ] Trace HTTP\n- [ ] Trace DB\n- [ ] Visualização\n- [ ] Identificar gargalos\n- [ ] Documentação\n\n**Critérios de Aceitação:**\n- [ ] Traces end-to-end\n- [ ] Latência visível\n- [ ] Queries lentas identificadas\n- [ ] Sem impacto de performance\n- [ ] Documentação\n\n**Dependências:** #21, #24\n\n**Story Points:** 13\n**Prioridade:** 🔵 Baixa"
   },
   {
-    "title": "Conectar tela de login ao backend mockado",
-    "body": "Integrar frontend ao backend fake.",
-    "assignees": ["ramosrms245"],
-    "milestone": 3,
-    "labels": ["Frontend"]
+    "title": "Documentação de Operação",
+    "labels": ["documentation", "prioridade:crítica"],
+    "assignees": ["eliezer-pires", "Fabiano01x"],
+    "milestone": "Sprint 6 - Polimento e Documentação",
+    "body": "**Descrição:**\nDocumentação completa para time de operações.\n\n**Tasks:**\n- [ ] DEPLOY.md\n- [ ] ROLLBACK.md\n- [ ] TROUBLESHOOTING.md\n- [ ] observabilidade.md\n- [ ] BACKUP-RESTORE.md\n- [ ] RUNBOOKS.md\n- [ ] Diagramas atualizados\n\n**Critérios de Aceitação:**\n- [ ] Ops faz deploy sozinho\n- [ ] Runbooks testados\n- [ ] Diagramas consistentes\n- [ ] Revisão por 2 pessoas\n- [ ] Feedback incorporado\n\n**Dependências:** Todas anteriores\n\n**Story Points:** 8\n**Prioridade:** 🔴 Crítica"
   },
   {
-    "title": "Criar listagem de materiais com dados fake",
-    "body": "Mostrar dados simulados na UI.",
-    "assignees": ["ramosrms245"],
-    "milestone": 3,
-    "labels": ["Frontend"]
-  },
-
-  {
-    "title": "Implementar endpoints avançados",
-    "body": "Busca de materiais, filtros e paginação.",
-    "assignees": ["KeltonMarques"],
-    "milestone": 4,
-    "labels": ["Backend"]
+    "title": "Documentação de Desenvolvimento",
+    "labels": ["documentation", "develop", "prioridade:alta"],
+    "assignees": ["Fabiano01x", "EdimarLins"],
+    "milestone": "Sprint 6 - Polimento e Documentação",
+    "body": "**Descrição:**\nDocumentação para novos desenvolvedores.\n\n**Tasks:**\n- [ ] CONTRIBUTING.md\n- [ ] DEVELOPMENT.md\n- [ ] ARCHITECTURE.md\n- [ ] TESTING.md\n- [ ] FEATURE-FLAGS.md\n- [ ] API.md\n- [ ] Comentários em código\n- [ ] README\n\n**Critérios de Aceitação:**\n- [ ] Setup < 30 min\n- [ ] Docs claras\n- [ ] Exemplos funcionam\n- [ ] Links corretos\n- [ ] Revisão por dev júnior\n\n**Dependências:** Todas anteriores\n\n**Story Points:** 5\n**Prioridade:** 🟡 Alta"
   },
   {
-    "title": "Adicionar testes unitários no backend",
-    "body": "Testar endpoints com Pytest.",
-    "assignees": ["KeltonMarques", "eliezer-pires"],
-    "milestone": 4,
-    "labels": ["Backend"]
+    "title": "Testes End-to-End",
+    "labels": ["testing", "qa", "prioridade:alta"],
+    "assignees": ["Fabiano01x", "EdimarLins"],
+    "milestone": "Sprint 6 - Polimento e Documentação",
+    "body": "**Descrição:**\nCriar testes E2E.\n\n**Tasks:**\n- [ ] Setup Playwright/Cypress\n- [ ] Login\n- [ ] CRUD ferramentas\n- [ ] Empréstimo\n- [ ] Relatórios\n- [ ] Busca\n- [ ] CI integration\n- [ ] Screenshots/videos\n\n**Critérios de Aceitação:**\n- [ ] 5+ fluxos\n- [ ] <10min execução\n- [ ] CI integrado\n- [ ] Testes passando\n\n**Dependências:** #17\n\n**Story Points:** 13\n**Prioridade:** 🟡 Alta"
   },
   {
-    "title": "Conectar frontend ao backend real",
-    "body": "Login e CRUD de materiais via API real.",
-    "assignees": ["ramosrms245", "eliezer-pires"],
-    "milestone": 4,
-    "labels": ["Frontend"]
+    "title": "Scripts de Manutenção",
+    "labels": ["DevOps", "maintenance", "prioridade:média"],
+    "assignees": ["eliezer-pires"],
+    "milestone": "Sprint 6 - Polimento e Documentação",
+    "body": "**Descrição:**\nScripts úteis para manutenção.\n\n**Tasks:**\n- [ ] clean-old-images.sh\n- [ ] vacuum-db.sh\n- [ ] rotate-logs.sh\n- [ ] health-check.sh\n- [ ] generate-report.sh\n- [ ] Documentação\n- [ ] Testes em staging\n- [ ] Cron jobs\n\n**Critérios de Aceitação:**\n- [ ] Scripts idempotentes\n- [ ] Documentados\n- [ ] Logs claros\n- [ ] Testados\n\n**Dependências:** #1, #14\n\n**Story Points:** 5\n**Prioridade:** 🟢 Média"
   },
   {
-    "title": "Implementar formulários de materiais",
-    "body": "Criar/editar materiais pelo frontend.",
-    "assignees": ["ramosrms245"],
-    "milestone": 4,
-    "labels": ["Frontend"]
-  },
-  {
-    "title": "Adicionar feedback visual",
-    "body": "Loading spinners, mensagens de erro e sucesso.",
-    "assignees": ["ramosrms245"],
-    "milestone": 4,
-    "labels": ["Frontend"]
-  },
-
-  {
-    "title": "Otimizar queries do banco",
-    "body": "Adicionar índices e melhorar performance.",
-    "assignees": ["KeltonMarques"],
-    "milestone": 5,
-    "labels": ["Backend"]
-  },
-  {
-    "title": "Criar testes de carga",
-    "body": "Usar locust ou k6 para validar escalabilidade.",
-    "assignees": ["KeltonMarques"],
-    "milestone": 5,
-    "labels": ["Backend"]
-  },
-  {
-    "title": "Implementar testes E2E no frontend",
-    "body": "Testes com Cypress para fluxos principais.",
-    "assignees": ["ramosrms245"],
-    "milestone": 5,
-    "labels": ["Frontend"]
-  },
-  {
-    "title": "Melhorar responsividade e UX",
-    "body": "Ajustar frontend para mobile e refinar UI.",
-    "assignees": ["ramosrms245"],
-    "milestone": 5,
-    "labels": ["Frontend"]
-  },
-
-  {
-    "title": "Documentar API no README e Swagger",
-    "body": "Explicar endpoints e como consumir a API.",
-    "assignees": ["KeltonMarques", "eliezer-pires"],
-    "milestone": 6,
-    "labels": ["Backend"]
-  },
-  {
-    "title": "Revisar cobertura de testes backend",
-    "body": "Cobertura > 80% nos testes automatizados.",
-    "assignees": ["KeltonMarques", "eliezer-pires"],
-    "milestone": 6,
-    "labels": ["Backend"]
-  },
-  {
-    "title": "Documentar instruções de uso do frontend",
-    "body": "README com passos para rodar o frontend.",
-    "assignees": ["ramosrms245"],
-    "milestone": 6,
-    "labels": ["Frontend"]
-  },
-  {
-    "title": "Revisar acessibilidade e usabilidade",
-    "body": "Checar padrões WCAG e UX geral.",
-    "assignees": ["ramosrms245", "eliezer-pires"],
-    "milestone": 6,
-    "labels": ["Frontend"]
+    "title": "Treinamento e Handoff",
+    "labels": ["documentation", "training", "prioridade:crítica"],
+    "assignees": ["eliezer-pires", "Fabiano01x", "EdimarLins"],
+    "milestone": "Sprint 6 - Polimento e Documentação",
+    "body": "**Descrição:**\nTreinamento final.\n\n**Tasks:**\n- [ ] Sessão arquitetura\n- [ ] Sessão deploy\n- [ ] Sessão troubleshooting\n- [ ] Sessão dev local\n- [ ] Gravar sessões\n- [ ] FAQ\n- [ ] Checklist de conhecimento\n- [ ] Handoff oficial\n\n**Critérios de Aceitação:**\n- [ ] Ops treinado 100%\n- [ ] Devs treinados\n- [ ] Vídeos gravados\n- [ ] FAQ pronto\n- [ ] Ops realiza deploy sozinho\n\n**Dependências:** #26, #27\n\n**Story Points:** 8\n**Prioridade:** 🔴 Crítica"
   }
 ]

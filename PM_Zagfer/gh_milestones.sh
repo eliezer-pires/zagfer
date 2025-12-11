@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 
 REPO="eliezer-pires/zagfer"
 
@@ -11,6 +12,23 @@ declare -A milestones=(
   ["Sprint 6 - Polimento e Documentação"]="2026-03-04T23:59:59Z"
 )
 
+# -------------------------
+# Pré-requisitos
+# -------------------------
+if ! command -v gh >/dev/null 2>&1; then
+  echo "Erro: gh CLI não encontrado. Instale: https://cli.github.com/"
+  exit 1
+fi
+if ! command -v jq >/dev/null 2>&1; then
+  echo "Erro: jq não encontrado. Instale: sudo apt install jq"
+  exit 1
+fi
+
+if ! gh auth status >/dev/null 2>&1; then
+  echo "Por favor autentique-se: gh auth login"
+  exit 1
+fi
+
 echo "🚀 Criando milestones no repositório $REPO ..."
 for title in "${!milestones[@]}"; do
   due_on="${milestones[$title]}"
@@ -21,40 +39,54 @@ for title in "${!milestones[@]}"; do
     -f state="open" \
     -f description="Milestone do projeto $REPO" \
     -f due_on="$due_on" \
-    > /dev/null
+    > /dev/null 2>&1 || true
 done
 
 # Capturar IDs e títulos das milestones
-echo "Listando milestones e salvando IDs..."
+echo "Listando milestones e salvando dados em milestones_ids.json ..."
 gh api repos/$REPO/milestones \
-  --jq '.[] | {id: .id, title: .title}' > milestones_ids.json
+  --jq '.[] | {number: .number, title: .title}' | jq -s '.' > milestones_ids.json
 
+echo "Arquivo milestones_ids.json criado:"
+cat milestones_ids.json
+echo ""
 echo "✅ Todas as milestones foram criadas!"
 
 echo "Mapeando títulos de milestones para IDs..."
-declare -A milestone_ids
-while read -r id title; do
-    milestone_ids["$title"]="$id"
-done < <(jq -r '.[] | "\(.title) \(.id)"' milestones_ids.json)
+declare -A MILESTONE_MAP=()
+while IFS=$'\t' read -r number title; do
+  title=$(echo "$title" | sed 's/^"//; s/"$//')
+  MILESTONE_MAP["$title"]="$number"
+done < <(jq -r '.[] | "\(.number)\t\(.title)"' milestones_ids.json)
+
+echo "✅ Map de milestones (title -> number):"
+for t in "${!MILESTONE_MAP[@]}"; do
+  printf " - %s -> %s\n" "$t" "${MILESTONE_MAP[$t]}"
+done
 echo "✅ Mapeamento concluído!"
 
-# Importando as Issues
+# Importando as Issues - USANDO PROCESS SUBSTITUTION
 echo "🚀 Importando issues do arquivo issues.json ..."
-cat issues.json | jq -c '.[]' | while read issue; do
-  title=$(echo $issue | jq -r '.title')
-  body=$(echo $issue | jq -r '.body')
-  assignees=$(echo $issue | jq -r '.assignees | join(",")')
-  # Obtenha o título da milestone
-  milestone_title=$(echo $issue | jq -r '.milestone')
-  # Obtenha o ID correspondente
-  milestone_id=${milestone_ids[$milestone_title]}
-  labels=$(echo $issue | jq -r '.labels | join(",")')
+while IFS= read -r issue; do
+  title=$(echo "$issue" | jq -r '.title')
+  body=$(echo "$issue" | jq -r '.body')
+  assignees=$(echo "$issue" | jq -r '.assignees | join(",")')
+  milestone_title=$(echo "$issue" | jq -r '.milestone')  
+  labels=$(echo "$issue" | jq -r '.labels | join(",")')
+
+  # Obtenha o Number correspondente usando o título da milestone
+  milestone_id=${MILESTONE_MAP["$milestone_title"]}
+
+  echo "📌 Criando issue: $title (milestone: $milestone_title -> ID: $milestone_id)"
 
   gh issue create \
-    --repo $REPO \
+    --repo "$REPO" \
     --title "$title" \
     --body "$body" \
     --assignee "$assignees" \
     --milestone "$milestone_id" \
     --label "$labels"
-done
+done < <(jq -c '.[]' issues.json)
+
+echo ""
+echo "✅ Todas as issues foram criadas!"
