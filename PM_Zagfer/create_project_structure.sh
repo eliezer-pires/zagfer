@@ -92,6 +92,8 @@ echo "$NUM_ISSUES issues encontradas no arquivo issues.json."
 for i in $(seq 0 $((NUM_ISSUES - 1))); do
   TITLE=$(jq -r ".[$i].title" issues.json)
   BODY=$(jq -r ".[$i].body" issues.json)
+  LABELS=$(jq -r ".[$i].labels[]" issues.json)
+  ASSIGNEES=$(jq -r ".[$i].assignees" issues.json)
   MILESTONE_NAME=$(jq -r ".[$i].milestone" issues.json)
 
   # busca ID da milestone
@@ -107,7 +109,9 @@ for i in $(seq 0 $((NUM_ISSUES - 1))); do
     --title "$TITLE" \
     --body "$BODY" \
     --repo "$REPO" \
-    --milestone "$MILESTONE_ID"
+    --milestone "$MILESTONE_ID" \
+    $(printf -- "--label %s " $LABELS) \
+    --assignee "$ASSIGNEES"
 done
 
 echo "==> Processo concluído!"
