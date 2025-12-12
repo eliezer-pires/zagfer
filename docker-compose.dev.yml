@@ -1,0 +1,96 @@
+# ============================================
+# DOCKER COMPOSE - DESENVOLVIMENTO
+# ============================================
+#
+# COMO USAR:
+# docker-compose -f docker-compose.yml -f docker-compose.dev.yml up
+#
+# CARACTERÍSTICAS:
+# - Hot reload ativado
+# - Source code montado como volume
+# - Portas de debug expostas
+# - Logs verbosos
+# - DB acessível externamente (para DBeaver/pgAdmin)
+#
+# ============================================
+
+services:
+  # ------------------------------------------
+  # APLICAÇÃO - OVERRIDES DE DEV
+  # ------------------------------------------
+  zagfer-app:
+    # Build com target development
+    build:
+      target: development
+    
+    # Variáveis de ambiente específicas de dev
+    environment:
+      - NODE_ENV=development
+      - ENABLE_DEBUG_LOGS=true
+      - ENABLE_HOT_RELOAD=true
+      - ENABLE_TELEMETRY=false
+
+    # Volumes para hot reload
+    volumes:
+      # Monta código fonte (read-only para evitar acidentes)
+      - ./src:/app/src:ro
+      - ./pages:/app/pages:ro
+      - ./components:/app/components:ro
+      - ./services:/app/services:ro
+      - ./store:/app/store:ro
+      - ./server:/app/server:ro
+      # Arquivos de configuração
+      - ./package.json:/app/package.json:ro
+      - ./tsconfig.json:/app/tsconfig.json:ro
+      - ./vite.config.ts:/app/vite.config.ts:ro
+      # node_modules NÃO montado (usa do container)
+      - /app/node_modules
+    
+    # Comando de desenvolvimento
+    command: npm run dev
+
+    # Porta de debug do Node.js
+    ports:
+      - "3000:3000"       # API
+      - "9229:9229"       # Node.js Debug
+    
+    # Health check mais relaxado em dev
+    healthcheck:
+      interval: 60s
+      timeout: 10s
+      retries: 5
+      start_period: 60s
+  
+  # ------------------------------------------
+  # DATABASE - OVERRIDES DE DEV
+  # ------------------------------------------
+  zagfer-db:
+    # Expõe porta para acesso externo (DBeaver/pgAdmin)
+    ports:
+      - "${DB_PORT_HOST:-5432}:5432"
+    
+    environment:
+      # Logging mais verboso
+      - POSTGRES_HOST_AUTH_METHOD=trust # APENAS DEV!
+    
+    # Volume para backups de dev
+    volumes:
+      - zagfer-db-data:/var/lib/postgresql/data
+      - ./backups:/backups
+  
+  # ------------------------------------------
+  # ADMINER - INTERFACE WEB PARA DB (OPCIONAL)
+  # ------------------------------------------
+  adminer:
+    container_name: zagfer-adminer
+    image: adminer:latest
+    restart: unless-stopped
+    ports:
+      - "8080:8080"
+    networks:
+      - zagfer-network
+    environment:
+      - ADMINER_DEFAULT_SERVER=zagfer-db
+      - ADMINER_DESIGN=pepa-linha-dark
+    depends_on:
+      - zagfer-db
