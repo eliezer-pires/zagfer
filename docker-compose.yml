@@ -1,0 +1,165 @@
+# ============================================
+# DOCKER COMPOSE - ZAGFER
+# Sistema de Gestão de Ferramentaria
+# ============================================
+#
+# COMO USAR:
+# 1. Desenvolvimento: docker-compose up
+# 2. Com overrides dev: docker-compose -f docker-compose.yml -f docker-compose.dev.yml up
+# 3. Produção: docker-compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+#
+# ESTRUTURA:
+# - zagfer-app: Aplicação principal (Node.js + React)
+# - zagfer-db: Banco de dados PostgreSQL
+# - zagfer-nginx: (Opcional) Reverse proxy
+#
+# ============================================
+
+services:
+  zagfer-app:
+    container_name: zagfer-app
+    # Build Configuration
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production # Stage do Dockerfile multi-stage
+      args:
+        - NODE_VERSION=20
+    
+    image: zagfer:latest
+    
+    restart: unless-stopped
+    
+    # Portas expostas
+    # HOST:CONTAINER
+    ports:
+      - "${API_PORT:-3000}:3000"
+    
+    # Variáveis de ambiente
+    environment:
+      # Ambiente
+      - NODE_ENV=${NODE_ENV:-production}
+      # API
+      - API_PORT=3000
+      - API_HOST=0.0.0.0
+      # Database
+      - DB_HOST=zagfer-db
+      - DB_PORT=5432
+      - DB_NAME=${DB_NAME:-zagfer}
+      - DB_USER=${DB_USER:-zagfer}
+      - DB_PASSWORD=${DB_PASSWORD:-changeme}
+      - DATABASE_URL=postgresql://${DB_USER:-zagfer}:${DB_PASSWORD:-changeme}@zagfer-db:5432/${DB_NAME:-zagfer}
+      # Security
+      - JWT_SECRET=${JWT_SECRET:-dev-secret-change-in-production}
+      - SESSION_SECRET=${SESSION_SECRET:-dev-session-change-in-production}
+      # CORS
+      - CORS_ORIGINS=${CORS_ORIGINS:-http://localhost:3000,http://localhost:5173}
+      # Features
+      - ENABLE_TELEMETRY=${ENABLE_TELEMETRY:-false}
+      - ENABLE_DEBUG_LOGS=${ENABLE_DEBUG_LOGS:-false}
+    
+    volumes:
+      # Uploads persistentes
+      - zagfer-uploads:/app/uploads
+      # Logs persistentes
+      - zagfer-logs:/app/logs
+    
+    networks:
+      -zagfer-network
+    
+    depends_on:
+      zagfer-db:
+        condition: service_healthy
+    
+    healthcheck:
+      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+    
+    # Recursos (limites)
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 2G
+        reservations:
+          cpus: '0.5'
+          memory: 512M
+
+  zagfer-db:
+    container_name: zagfer-db
+    
+    image: postgres:15-alpine
+    
+    restart: unless-stopped
+    # Portas expostas (apenas internamente na network)
+    # NÃO exponha porta DB publicamente em produção
+    expose:
+      - "5432"
+
+    # Variáveis de ambiente
+    environment:
+      - POSTGRES_DB=${DB_NAME:-zagfer}
+      - POSTGRES_USER=${DB_USER:-zagfer}
+      - POSTGRES_PASSWORD=${DB_PASSWORD:-changeme}
+      - PGDATA=/var/lib/postgresql/data/pgdata
+    
+    volumes:
+      # Dados persistentes do PostgreSQL
+      - zagfer-db-data:/var/lib/postgresql/data
+
+    networks:
+      - zagfer-network
+    
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-zagfer} -d ${DB_NAME:-zagfer}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    
+    # Recursos (limites)
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
+          memory: 1G
+        reservations:
+          cpus: '0.25'
+          memory: 256M
+
+  # ------------------------------------------
+  # NGINX - REVERSE PROXY (OPCIONAL)
+  # ------------------------------------------
+  # Descomente se precisar de SSL/Load Balancing
+  # zagfer-nginx:
+  #   container_name: zagfer-nginx
+  #   image: nginx:alpine
+  #   restart: unless-stopped
+  #   ports:
+  #     - "80:80"
+  #     - "443:443"
+  #   volumes:
+  #     - ./nginx.conf:/etc/nginx/nginx.conf:ro
+  #     - ./certs:/etc/nginx/certs:ro
+  #   networks:
+  #     - zagfer-network
+  #   depends_on:
+  #     - zagfer-app
+
+networks:
+  zagfer-network:
+    driver: bridge
+
+volumes:
+  # Dados do PostgreSQL
+  zagfer-db-data:
+    driver: local
+  # Uploads de usuários
+  zagfer-uploads:
+    driver: local
+  # Logs da aplicação
+  zagfer-logs:
+    driver: local
