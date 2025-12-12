@@ -65,7 +65,7 @@ services:
       - zagfer-logs:/app/logs
     
     networks:
-      -zagfer-network
+      - zagfer-network
     
     depends_on:
       zagfer-db:
