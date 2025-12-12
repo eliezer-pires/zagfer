@@ -1,0 +1,10 @@
+# .dockerignore
+# Ignore node_modules directory
+node_modules
+# Ignore log files
+*.log
+dist
+.git
+.env
+coverage
+.vscode
