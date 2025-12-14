@@ -12,6 +12,6 @@ export const INITIAL_TOOLS: Tool[] = [
 ];
 
 export const INITIAL_USERS: User[] = [
-  { id: '1', name: 'Gerente', matricula: '459524', active: true, role: 'admin' },
+  { id: '1', name: 'GERENTE', matricula: '459524', active: true, role: 'admin' },
   { id: '2', name: '3S EDIMAR', matricula: '123456', active: true, role: 'user' }
 ];
